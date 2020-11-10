@@ -4,10 +4,11 @@ Emisor : debe conocer la llave pública .
 Para no adelantar contenido generamos nosotros nuestras propias llaves.
 
 ## Generación de llaves con RSA :
+
 ###Llave privada 
-'''
+<pre><code>
 openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -pkeyopt rsa_keygen_pubexp:3 -out privkey-S.pem
-'''
+</code></pre>
 
 desde el directorio **claves** en la terminal 
 ( ID , identificador, por si es llave de github, etc )
