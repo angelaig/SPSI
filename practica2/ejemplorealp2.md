@@ -6,8 +6,7 @@ Para no adelantar contenido generamos nosotros nuestras propias llaves.
 ## Generación de llaves con RSA :
 ###Llave privada 
 '''
-openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -pkeyopt \
-rsa_keygen_pubexp:3 -out privkey-S.pem
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -pkeyopt rsa_keygen_pubexp:3 -out privkey-S.pem
 '''
 
 desde el directorio **claves** en la terminal 
@@ -31,12 +30,14 @@ openssl pkey -in privkey-ID.pem -text
 
 '''
 openssl pkey -in privkey-ID.pem -out pubkey-ID.pem -pubout
+
 '''
 
 #Para mostrar el contenido de la llave pública 
 
 '''
 openssl pkey -in pubkey-ID.pem -pubin -text
+
 '''
 
 Muestra el módulo y el exponente en 
@@ -51,19 +52,18 @@ components públicas. En la fase de generación deben ser ejecutadas las siguien
 
 
 '''
-openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -pkeyopt \
-rsa_keygen_pubexp:3 -out privkey-userS.pem
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -pkeyopt rsa_keygen_pubexp:3 -out privkey-userS.pem
 '''
 
 '''
-openssl pkey -in privkey-userS.pem -out pubkey-userS.pem -puboutopenssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -pkeyopt \
-rsa_keygen_pubexp:5 -out privkey-userR.pem
+openssl pkey -in privkey-userS.pem -out pubkey-userS.pem -puboutopenssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -pkeyopt rsa_keygen_pubexp:5 -out privkey-userR.pem
 '''
 
 ##Clave pública a partir de la privada 
 
 '''
 openssl pkey -in privkey-userR.pem -out pubkey-userR.pem -pubout
+
 '''
 
 Los usuarios intercambiamos las llaves por telegram
@@ -89,8 +89,7 @@ mi cuenta, a la que tiene acceso, para adquirir para mí un Bitcoin
 ##Se firma ( con la privada )
 
 '''
-openssl dgst -sha256 -sign privkey-userS.pem \
--out message-userS.txt.sgn message-userS.txt
+openssl dgst -sha256 -sign privkey-userS.pem -out message-userS.txt.sgn message-userS.txt
 '''
 
 (huella hash según el método sha256 para firmar el archivo que queremos enviar ,
@@ -102,8 +101,7 @@ En el directorio userS tendríamosla pareja de claves , el mensaje y message-use
 del usuario 
 
 '''
-openssl pkeyutl -encrypt -in message-userS.txt -pubin -inkey \
-pubkey-userR.pem -out message-userS.txt.enc
+openssl pkeyutl -encrypt -in message-userS.txt -pubin -inkey pubkey-userR.pem -out message-userS.txt.enc
 
 '''
 
@@ -115,20 +113,18 @@ message-userS.txt.enc
 
 #Receptor
 
-Desencripta el fichero cifrado con la llave privada 
+##Desencripta el fichero cifrado con la llave privada 
 
 '''
-openssl pkeyutl -decrypt -in message-userS.txt.enc \
--inkey privkey-userR.pem -out rec-message-userS.txt
+openssl pkeyutl -decrypt -in message-userS.txt.enc -inkey privkey-userR.pem -out rec-message-userS.txt
 '''
 
 Hacemos cat al fichero *.txt par ver que está correctamente descifrado
 
-Compruebo que el emisor es quien realmente dice comprobando con la llave pública 
+##Compruebo que el emisor es quien realmente dice comprobando con la llave pública 
 
 '''
-openssl dgst -sha256 -verify pubkey-userS.pem -signature \
-message-userS.txt.sgn rec-message-userS.txt
+openssl dgst -sha256 -verify pubkey-userS.pem -signature message-userS.txt.sgn rec-message-userS.txt
 '''
 
 ( message-userS.txt.sgn es el que he recibido ) 
