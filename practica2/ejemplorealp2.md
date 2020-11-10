@@ -75,9 +75,11 @@ Si necesitara su pública la generaría a partir de la privada
 
 Hacemos el mensaje ( breve, que no supere la longitud e una huella hash )
 
+#--------------------------------------------------
 #Emisor
 
 ##Creamos un fichero con el mensaje ( emisor )
+
 '''
 echo Le ruego que disponga de 15540.40 dólares de
 mi cuenta, a la que tiene acceso, para adquirir para mí un Bitcoin
@@ -85,6 +87,7 @@ mi cuenta, a la que tiene acceso, para adquirir para mí un Bitcoin
 '''
 
 ##Se firma ( con la privada )
+
 '''
 openssl dgst -sha256 -sign privkey-userS.pem \
 -out message-userS.txt.sgn message-userS.txt
@@ -101,6 +104,7 @@ del usuario
 '''
 openssl pkeyutl -encrypt -in message-userS.txt -pubin -inkey \
 pubkey-userR.pem -out message-userS.txt.enc
+
 '''
 
 pkeutl con versiónde cifrado (-encrypt) el fichero que quiero cifrar y que cifre con la pública ( el que tenga la privada correspondiente a esa pública será quien descifrará el mensaje ) El resultado de todo esto será el mensaje cifrado message-userS.txt.enc
@@ -111,7 +115,7 @@ message-userS.txt.enc
 
 #Receptor
 
-Descifra el fichero cifrado con la llave privada 
+Desencripta el fichero cifrado con la llave privada 
 
 '''
 openssl pkeyutl -decrypt -in message-userS.txt.enc \
@@ -134,7 +138,7 @@ message-userS.txt.sgn rec-message-userS.txt
 ( Paso intermedio : hago huella hash al descifrado my veo si coinciden )
 
 Esperamos una verificación correcta .
-y visualizamos el fichero con hash .  
+y visualizamos el fichero con bash .  
 
 
 
